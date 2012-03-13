@@ -6,15 +6,23 @@ describe "StaticPages" do
 		page
 	}
 
+	shared_examples_for "all static pages" do
+		it {
+			should have_selector('title', text: full_title(page_title))
+		}
+	end
+
 	describe "Home page" do
 
 		before {
 			visit root_path
 		}
 
-		it {
-			should have_selector('title', text: full_title('home'))	
-		} 
+		let(:page_title) {
+			'home'
+		}
+
+		it_should_behave_like "all static pages" 
 
 	end
 
@@ -25,13 +33,15 @@ describe "StaticPages" do
 			visit help_path
 		}
 
+		let(:page_title) {
+			'help'
+		}
+
 		it {
 			should have_selector('h1', text: "help")
 		}
 
-		it {
-			should have_selector('title', text: full_title('help'))
-		}
+		it_should_behave_like "all static pages"
 
 	end
 
@@ -41,13 +51,15 @@ describe "StaticPages" do
 			visit tou_path
 		}
 
+		let(:page_title) {
+			'terms of use'
+		}
+
 		it {
 			should have_selector('h1', text: "terms of use")
 		}
 
-		it {
-			should have_selector('title', text: full_title('terms of use'))
-		}
+		it_should_behave_like "all static pages"
 
 	end
 
@@ -57,13 +69,15 @@ describe "StaticPages" do
 			visit about_path
 		}
 
+		let(:page_title) {
+			'about'
+		}
+
 		it {
 			should have_selector('h1', text: "about icebrg")
 		}
 
-		it {
-			should have_selector('title', text: full_title('about'))
-		}
+		it_should_behave_like "all static pages"
 
 	end
 
@@ -73,13 +87,15 @@ describe "StaticPages" do
 			visit contact_path
 		}
 
+		let(:page_title) {
+			'contact'
+		}
+
 		it {
 			should have_selector('h1', text: "contact icebrg")
 		}
 
-		it {
-			should have_selector('title', text: full_title('contact'))
-		}
+		it_should_behave_like "all static pages"
 
 	end
 

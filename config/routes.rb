@@ -1,4 +1,6 @@
 Icebrg::Application.routes.draw do
+  get "ices/new"
+
   root to: 'static_pages#home'
 
   match '/help', to: 'static_pages#help'
@@ -10,6 +12,8 @@ Icebrg::Application.routes.draw do
   match '/about', to: 'static_pages#about'
 
   match '/contact', to: 'static_pages#contact'
+
+  match '/newice', to: 'ices#new'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
