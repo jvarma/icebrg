@@ -9,9 +9,8 @@ describe "StaticPages" do
 	describe "Home page" do
 
 		it "should have 'icebrg - home' in the page title" do
-			visit '/static_pages/home'
-			page.should have_selector('title', 
-				:text => "#{base_title} home", :case_sensitive => true)
+			visit root_path
+			page.should have_selector('title', text: "#{base_title} home")
 		end
 
 	end
@@ -20,14 +19,13 @@ describe "StaticPages" do
 	describe "Help page" do
 
 		it "should have 'help' in an h1" do
-			visit '/static_pages/help'
-			page.should have_selector('h1', :text => "help", :case_sensitive => true)
+			visit help_path
+			page.should have_selector('h1', text: "help")
 		end
 
 		it "should have 'icebrg - help' in title" do
-			visit '/static_pages/help'
-			page.should have_selector('title',
-				:text => "#{base_title} help", :case_sensitive => true)
+			visit help_path
+			page.should have_selector('title', text: "#{base_title} help")
 		end
 
 	end
@@ -35,13 +33,42 @@ describe "StaticPages" do
 	describe "Terms of Use page" do
 
 		it "should have 'terms of use' in an h1" do
-			visit '/static_pages/termsofuse'
-			page.should have_selector('h1', :text => "terms of use")
+			visit termsofuse_path
+			page.should have_selector('h1', text: "terms of use")
 		end
 
 		it "should have 'icebrg - terms of use' in title" do
-			visit '/static_pages/termsofuse'
-			page.should have_selector('title', :text => "#{base_title} terms of use")
+			visit termsofuse_path
+			page.should have_selector('title', text: "#{base_title} terms of use")
+		end
+
+	end
+
+	describe "About icebrg page" do
+
+		it "should have 'about icebrg' in an h1" do
+			visit about_path
+			page.should have_selector('h1', text: "about icebrg")
+		end
+
+
+		it "should have 'icebrg - about' in title" do
+			visit about_path
+			page.should have_selector('title', text: "#{base_title} about")
+		end
+
+	end
+
+	describe "contact page" do
+
+		it "should have 'contact icebrg' in an h1" do
+			visit contact_path
+			page.should have_selector('h1', text: "contact icebrg")
+		end
+
+		it "should have 'icebrg - contact' in title" do
+			visit contact_path
+			page.should have_selector('title', text: "#{base_title} contact")
 		end
 
 	end
