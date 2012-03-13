@@ -24,7 +24,7 @@ describe "SignUps" do
 
 			expect do
 				click_button "Sign up"
-				should have_content('Welcome! You have signed up successfully.')
+				should have_content('You have signed up successfully.')
 			end.to change(User, :count).by(1)
 			 
 		end

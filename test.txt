@@ -1,0 +1,21 @@
+Using the default profile...
+Feature: Signing in
+  In order to use the site
+  As a user
+  I want to be able to sign in
+
+  Scenario: Signing in via confirmation                                             # features\signing_in.feature:6
+    Given there are the following users:                                            # features/step_definitions/custom_email_steps.rb:1
+      | email            | password |
+      | user@example.com | foobar   |
+    And "user@example.com" opens the email with subject "Confirmation instructions" # features/step_definitions/email_steps.rb:80
+    And they click the first link in the email                                      # features/step_definitions/email_steps.rb:182
+    Then I should see "Your account was successfully confirmed"                     # features/step_definitions/custom_email_steps.rb:7
+      TODO (Cucumber::Pending)
+      ./features/step_definitions/custom_email_steps.rb:8:in `/^I should see "([^"]*)"$/'
+      features\signing_in.feature:13:in `Then I should see "Your account was successfully confirmed"'
+    And I should see "Signed in as user@example.com"                                # features/step_definitions/custom_email_steps.rb:7
+
+1 scenario (1 pending)
+5 steps (1 skipped, 1 pending, 3 passed)
+0m4.142s

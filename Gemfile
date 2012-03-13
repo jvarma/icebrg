@@ -23,6 +23,10 @@ gem 'jquery-rails', '2.0.0'
 
 group :test do
 	gem 'capybara', '1.1.2'
+	gem 'email_spec'
+	gem 'cucumber-rails'
+	gem 'database_cleaner'
+	gem 'factory_girl'
 end
 
 group :production do
