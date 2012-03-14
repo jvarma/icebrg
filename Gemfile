@@ -26,7 +26,7 @@ group :test do
 	gem 'email_spec'
 	gem 'cucumber-rails'
 	gem 'database_cleaner'
-	gem 'factory_girl'
+	gem 'factory_girl_rails', '~> 1.4.0'
 end
 
 group :production do

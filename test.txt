@@ -5,25 +5,107 @@ Feature: Signing in
   I want to be able to sign in
 
   Scenario: Signing in via confirmation                                                 # features\signing_in.feature:6
-    Given there are the following users:                                                # features/step_definitions/user_steps.rb:2
+    Given there are the following users:                                                # features/step_definitions/user_steps.rb:89
       | email            | password | unconfirmed |
       | user@example.com | foobar   | true        |
     When "user@example.com" opens the email with subject "Confirmation instructions"    # features/step_definitions/email_steps.rb:80
     And they click the first link in the email                                          # features/step_definitions/email_steps.rb:182
-    Then I should see "Your account was successfully confirmed. You are now signed in." # features/step_definitions/user_steps.rb:32
-    And I should see "Signed in as user@example.com"                                    # features/step_definitions/user_steps.rb:32
+    Then I should see "Your account was successfully confirmed. You are now signed in." # features/step_definitions/user_steps.rb:238
+    And I should see "Signed in as user@example.com"                                    # features/step_definitions/user_steps.rb:238
 
   Scenario: Signing in via form                   # features\signing_in.feature:17
-    Given there are the following users:          # features/step_definitions/user_steps.rb:2
+    Given there are the following users:          # features/step_definitions/user_steps.rb:89
       | email            | password |
       | user@example.com | foobar   |
-    And I go to the homepage                      # features/step_definitions/user_steps.rb:14
-    When I follow "sign in"                       # features/step_definitions/user_steps.rb:18
-    And I fill in "Email" with "user@example.com" # features/step_definitions/user_steps.rb:22
-    And I fill in "Password" with "foobar"        # features/step_definitions/user_steps.rb:22
-    And I press "Sign in"                         # features/step_definitions/user_steps.rb:26
-    Then I should see "Signed in successfully."   # features/step_definitions/user_steps.rb:32
+    And I go to the homepage                      # features/step_definitions/user_steps.rb:163
+    When I follow "sign in"                       # features/step_definitions/user_steps.rb:167
+    And I fill in "Email" with "user@example.com" # features/step_definitions/user_steps.rb:171
+    And I fill in "Password" with "foobar"        # features/step_definitions/user_steps.rb:171
+    And I press "Sign in"                         # features/step_definitions/user_steps.rb:175
+    Then I should see "Signed in successfully."   # features/step_definitions/user_steps.rb:238
 
-2 scenarios (2 passed)
-12 steps (12 passed)
-0m5.281s
+Feature: Sign in
+  In order to get access to protected sections of the site
+  A user
+  Should be able to sign in
+
+  Scenario: User is not signed up         # features\users\sign_in.feature:6
+    Given I do not exist as a user        # features/step_definitions/user_steps.rb:80
+    When I sign in with valid credentials # features/step_definitions/user_steps.rb:100
+      undefined method `[]' for nil:NilClass (NoMethodError)
+      ./features/step_definitions/user_steps.rb:50:in `sign_in'
+      ./features/step_definitions/user_steps.rb:102:in `/^I sign in with valid credentials$/'
+      features\users\sign_in.feature:8:in `When I sign in with valid credentials'
+    Then I see an invalid login message   # features/step_definitions/user_steps.rb:225
+    And I should be signed out            # features/step_definitions/user_steps.rb:187
+
+  Scenario: User enters wrong email     # features\users\sign_in.feature:13
+    Given I exist as a user             # features/step_definitions/user_steps.rb:72
+    And I am not logged in              # features/step_definitions/user_steps.rb:63
+    When I sign in with a wrong email   # features/step_definitions/user_steps.rb:142
+    Then I see an invalid login message # features/step_definitions/user_steps.rb:225
+    And I should be signed out          # features/step_definitions/user_steps.rb:187
+
+  Scenario: User enters wrong password   # features\users\sign_in.feature:20
+    Given I exist as a confirmed user    # features/step_definitions/user_steps.rb:76
+    And I am not logged in               # features/step_definitions/user_steps.rb:63
+    When I sign in with a wrong password # features/step_definitions/user_steps.rb:147
+    Then I see an invalid login message  # features/step_definitions/user_steps.rb:225
+    And I should be signed out           # features/step_definitions/user_steps.rb:187
+
+Feature: Sign out
+  To protect my account from unauthorized access
+  A signed in user
+  Should be able to sign out
+
+  Scenario: User signs out                 # features\users\sign_out.feature:6
+    Given I am logged in                   # features/step_definitions/user_steps.rb:67
+    When I sign out                        # features/step_definitions/user_steps.rb:105
+    Then I should see a signed out message # features/step_definitions/user_steps.rb:221
+      Unable to find xpath "/html" (Capybara::ElementNotFound)
+      (eval):2:in `text'
+      ./features/step_definitions/user_steps.rb:222:in `/^I should see a signed out message$/'
+      features\users\sign_out.feature:9:in `Then I should see a signed out message'
+    When I return to the site              # features/step_definitions/user_steps.rb:138
+    Then I should be signed out            # features/step_definitions/user_steps.rb:187
+
+Feature: Sign up
+  In order to get access to protected sections of the site
+  As a user
+  I want to be able to sign up
+
+  Background:                # features\users\sign_up.feature:6
+    Given I am not logged in # features/step_definitions/user_steps.rb:63
+      Called id for nil, which would mistakenly be 4 -- if you really wanted the id of nil, use object_id (RuntimeError)
+      ./features/step_definitions/user_steps.rb:58:in `sign_out'
+      ./features/step_definitions/user_steps.rb:64:in `/^I am not logged in$/'
+      features\users\sign_up.feature:7:in `Given I am not logged in'
+
+  Scenario: User signs up with valid data          # features\users\sign_up.feature:9
+    When I sign up with valid user data            # features/step_definitions/user_steps.rb:109
+    Then I should see a successful sign up message # features/step_definitions/user_steps.rb:201
+
+  Scenario: User signs up with invalid email   # features\users\sign_up.feature:13
+    When I sign up with an invalid email       # features/step_definitions/user_steps.rb:114
+    Then I should see an invalid email message # features/step_definitions/user_steps.rb:205
+
+  Scenario: User signs up without password       # features\users\sign_up.feature:17
+    When I sign up without a password            # features/step_definitions/user_steps.rb:126
+    Then I should see a missing password message # features/step_definitions/user_steps.rb:209
+
+  Scenario: User signs up without password confirmation       # features\users\sign_up.feature:21
+    When I sign up without a password confirmation            # features/step_definitions/user_steps.rb:120
+    Then I should see a missing password confirmation message # features/step_definitions/user_steps.rb:213
+
+  Scenario: User signs up with mismatched password and confirmation # features\users\sign_up.feature:25
+    When I sign up with a mismatched password confirmation          # features/step_definitions/user_steps.rb:132
+    Then I should see a mismatched password message                 # features/step_definitions/user_steps.rb:217
+
+Failing Scenarios:
+cucumber features\users\sign_in.feature:6 # Scenario: User is not signed up
+cucumber features\users\sign_out.feature:6 # Scenario: User signs out
+cucumber features\users\sign_up.feature:9 # Scenario: User signs up with valid data
+
+11 scenarios (3 failed, 4 skipped, 4 passed)
+46 steps (3 failed, 18 skipped, 25 passed)
+0m5.116s
